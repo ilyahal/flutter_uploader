@@ -12,18 +12,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({
-    Key? key,
+    super.key,
     required this.uploader,
     required this.uploadURL,
     required this.onUploadStarted,
-  }) : super(key: key);
+  });
 
   final FlutterUploader uploader;
   final Uri uploadURL;
   final VoidCallback onUploadStarted;
 
   @override
-  _UploadScreenState createState() => _UploadScreenState();
+  State<UploadScreen> createState() => _UploadScreenState();
 }
 
 class _UploadScreenState extends State<UploadScreen> {
@@ -66,7 +66,7 @@ class _UploadScreenState extends State<UploadScreen> {
               children: <Widget>[
                 Text(
                   'Configure test Server Behavior',
-                  style: Theme.of(context).textTheme.subtitle1,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 DropdownButton<ServerBehavior>(
                   items: ServerBehavior.all.map((e) {
@@ -85,7 +85,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 const Divider(),
                 Text(
                   'multipart/form-data uploads',
-                  style: Theme.of(context).textTheme.subtitle1,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Wrap(
                   alignment: WrapAlignment.center,
@@ -108,7 +108,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 const Divider(height: 40),
                 Text(
                   'binary uploads',
-                  style: Theme.of(context).textTheme.subtitle1,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Text('this will upload selected files as binary'),
                 Wrap(
@@ -210,13 +210,10 @@ class _UploadScreenState extends State<UploadScreen> {
     widget.onUploadStarted();
   }
 
-  Upload _buildUpload(bool binary, List<String> paths,
-      [bool allowCellular = true]) {
+  Upload _buildUpload(bool binary, List<String> paths, [bool allowCellular = true]) {
     const tag = 'upload';
 
-    var url = binary
-        ? widget.uploadURL.replace(path: widget.uploadURL.path + 'Binary')
-        : widget.uploadURL;
+    var url = binary ? widget.uploadURL.replace(path: '${widget.uploadURL.path}Binary') : widget.uploadURL;
 
     url = url.replace(queryParameters: {
       'simulate': _serverBehavior.name,

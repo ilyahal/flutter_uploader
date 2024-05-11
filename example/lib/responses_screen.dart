@@ -11,14 +11,14 @@ import 'package:flutter_uploader_example/upload_item_view.dart';
 /// Shows the statusresponses for previous uploads.
 class ResponsesScreen extends StatefulWidget {
   const ResponsesScreen({
-    Key? key,
+    super.key,
     required this.uploader,
-  }) : super(key: key);
+  });
 
   final FlutterUploader uploader;
 
   @override
-  _ResponsesScreenState createState() => _ResponsesScreenState();
+  State<ResponsesScreen> createState() => _ResponsesScreenState();
 }
 
 class _ResponsesScreenState extends State<ResponsesScreen> {
@@ -33,15 +33,13 @@ class _ResponsesScreenState extends State<ResponsesScreen> {
 
     _progressSubscription = widget.uploader.progress.listen((progress) {
       final task = _tasks[progress.taskId];
-      print(
-          'In MAIN APP: ID: ${progress.taskId}, progress: ${progress.progress}');
+      print('In MAIN APP: ID: ${progress.taskId}, progress: ${progress.progress}');
       if (task == null) return;
       if (task.isCompleted()) return;
 
       var tmp = <String, UploadItem>{}..addAll(_tasks);
       tmp.putIfAbsent(progress.taskId, () => UploadItem(progress.taskId));
-      tmp[progress.taskId] =
-          task.copyWith(progress: progress.progress, status: progress.status);
+      tmp[progress.taskId] = task.copyWith(progress: progress.progress, status: progress.status);
       setState(() => _tasks = tmp);
     }, onError: (ex, stacktrace) {
       print('exception: $ex');
@@ -54,8 +52,7 @@ class _ResponsesScreenState extends State<ResponsesScreen> {
 
       var tmp = <String, UploadItem>{}..addAll(_tasks);
       tmp.putIfAbsent(result.taskId, () => UploadItem(result.taskId));
-      tmp[result.taskId] =
-          tmp[result.taskId]!.copyWith(status: result.status, response: result);
+      tmp[result.taskId] = tmp[result.taskId]!.copyWith(status: result.status, response: result);
 
       setState(() => _tasks = tmp);
     }, onError: (ex, stacktrace) {
