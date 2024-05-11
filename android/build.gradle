@@ -24,6 +24,10 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 31
 
+    if (project.android.hasProperty('namespace')) {
+        namespace 'com.ilyahal.flutter_uploader'
+    }
+
     defaultConfig {
         minSdkVersion 16
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
